@@ -296,3 +296,21 @@ func TestUnmarshalWriteRequest(t *testing.T) {
 		}
 	}
 }
+
+func TestUnmarshalReadRequestPointers(t *testing.T) {
+	data, err := ioutil.ReadFile("examples/read_request.xml")
+	if err != nil {
+		v, err := Unmarshal(data)
+		if err != nil {
+			var write = &v.Write
+			if write != nil {
+				t.Fail()
+			}
+
+			var read = &v.Read
+			if read == nil {
+				t.Fail()
+			}
+		}
+	}
+}
