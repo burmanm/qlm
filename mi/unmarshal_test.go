@@ -1,6 +1,7 @@
 package mi
 
 import (
+	"github.com/qlm-iot/qlm/df"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"testing"
@@ -313,4 +314,22 @@ func TestUnmarshalReadRequestPointers(t *testing.T) {
 			}
 		}
 	}
+}
+
+func TestIntegrationBetweenMiAndDf(t *testing.T) {
+	data, err := ioutil.ReadFile("examples/write_request.xml")
+	if err != nil {
+		t.Fail()
+	}
+
+	v, err := Unmarshal(data)
+	if err != nil {
+		t.Fail()
+	}
+
+	w, err := df.Unmarshal([]byte(v.Write.Message.Data))
+	if err != nil {
+		t.Fail()
+	}
+	assert.Equal(t, w.Objects[0].InfoItems[0].Name, "FridgeTemperatureSetpoint")
 }
