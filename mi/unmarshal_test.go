@@ -312,7 +312,11 @@ func TestUnmarshalReadRequestPointers(t *testing.T) {
 			if read == nil {
 				t.Fail()
 			}
+		} else {
+			t.Fail()
 		}
+	} else {
+		t.Fail()
 	}
 }
 
